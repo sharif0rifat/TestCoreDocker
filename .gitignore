@@ -6,3 +6,10 @@
 /TestCoreDocker/TestCoreDocker/bin/Debug/net6.0
 /TestCoreDocker/TestCoreDocker/obj
 /TestCoreDocker/TestCoreDocker/TestCoreDocker.csproj.user
+/TestCoreDocker/.vs/ProjectEvaluation
+/TestCoreDocker/TestCoreDocker/.vscode
+/TestCoreDocker/TestCoreDockerService/obj
+/TestCoreDocker/TestCoreDockerUnitTest/bin/Debug/net6.0
+/TestCoreDocker/TestCoreDockerUnitTest/obj
+/.vs
+/TestCoreDocker/TestCoreDockerService/bin/Debug/net6.0
