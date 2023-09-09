@@ -8,6 +8,7 @@ This is a simple .Net Core Web API project to demonstrate docker support for web
 1. [Features](#feature)
 2. [Docker Run](#docker)
 3. [See Result](#output)
+3. [docker resource](#output)
 <a name="feature"></a>
 ### Features
 Following things are covered in this project:
@@ -29,6 +30,7 @@ for example
 ```
 $docker run -p 8080:80 sharif8rifat/testcoredocker
 ```
+Point to be noted this image 'sharif8rifat/testcoredocker' is pushed to docker hub.
 <a name="output"></a>
 ### See Result
 After the docker run successfully  you can browse to 
