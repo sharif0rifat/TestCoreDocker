@@ -1,0 +1,27 @@
+root = true
+
+# C# and json files files
+[*.{json,cs}]
+
+# Indentation and spacing
+indent_size = 4
+indent_style = space
+tab_width = 4
+
+# C# files
+[*.cs]
+
+# some example overrides so the Code Style
+# suggestions do not get too annoying
+
+# CA5394: Do not use insecure randomness as it is just a demo
+dotnet_diagnostic.CA5394.severity = none
+
+# CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1031.severity = suggestion
+
+# CA1848: Logger delegates
+dotnet_diagnostic.CA1848.severity = none
+
+# CA1852: Program can be sealed
+dotnet_diagnostic.CA1852.severity = none
