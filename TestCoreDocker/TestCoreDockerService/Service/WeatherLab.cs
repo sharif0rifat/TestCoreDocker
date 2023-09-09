@@ -5,9 +5,11 @@ namespace TestCoreDockerService.Service
     public class WeatherLab: IWeatherLab
     {
         public string WeatherType { get; }
-        public WeatherLab(string weatherType)
+        public string ForcastArea { get; }
+        public WeatherLab(string weatherType, string forcastArea)
         {
             WeatherType = weatherType;
+            ForcastArea = forcastArea;
         }
 
 
@@ -19,18 +21,20 @@ namespace TestCoreDockerService.Service
                     (
                     DateTime.Now.AddDays(1),
                     Random.Shared.Next(-20, 55),
+                    this.ForcastArea,
                     "Sunny weather"
                     );
 
             return new WeatherForecast
                 (
-                DateTime.Now.AddDays(1),
+                DateTime.Now.AddDays(1),                
                 Random.Shared.Next(-20, 55),
+                this.ForcastArea,
                 "Normal weather"
                 );
         }
     }
-    public record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
+    public record WeatherForecast(DateTime Date, int TemperatureC,string Area, string? Summary)
     {
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
     }

@@ -7,8 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//Get the environment variable(That set in docker file) and inject to the service
 string weatherType= Environment.GetEnvironmentVariable("WeatherType");
-builder.Services.AddTransient<IWeatherLab>(x => new WeatherLab(weatherType));
+string forcastArea = builder.Configuration.GetValue<string>("ForecastArea");
+builder.Services.AddTransient<IWeatherLab>(x => new WeatherLab(weatherType,forcastArea));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -19,11 +21,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
 app.MapGet("/weatherforecast", (IWeatherLab lab) =>
 {
