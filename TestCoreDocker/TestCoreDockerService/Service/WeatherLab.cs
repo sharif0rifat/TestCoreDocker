@@ -1,41 +1,35 @@
-﻿using System;
+﻿using TestCoreDockerService.Models.Options;
+using Microsoft.Extensions.Options;
 
-namespace TestCoreDockerService.Service
+namespace TestCoreDockerService.Service;
+
+public class WeatherLab: IWeatherLab
 {
-    public class WeatherLab: IWeatherLab
+    private readonly WeatherOptions _options;
+
+    public WeatherLab(IOptions <WeatherOptions> options)
     {
-        public string WeatherType { get; }
-        public string ForcastArea { get; }
-        public WeatherLab(string weatherType, string forcastArea)
-        {
-            WeatherType = weatherType;
-            ForcastArea = forcastArea;
-        }
-
-
-
-        public WeatherForecast GetWeather()
-        {
-            if (WeatherType == "Sunny")
-                return new WeatherForecast
-                    (
-                    DateTime.Now.AddDays(1),
-                    Random.Shared.Next(-20, 55),
-                    this.ForcastArea,
-                    "Sunny weather"
-                    );
-
-            return new WeatherForecast
-                (
-                DateTime.Now.AddDays(1),                
-                Random.Shared.Next(-20, 55),
-                this.ForcastArea,
-                "Normal weather"
-                );
-        }
+        ArgumentNullException.ThrowIfNull(options);
+        _options = options.Value;
     }
-    public record WeatherForecast(DateTime Date, int TemperatureC,string Area, string? Summary)
+
+    public WeatherForecast GetWeather()
     {
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        if (_options.WeatherType == "Sunny")
+            return new WeatherForecast
+            (
+                DateTime.Now.AddDays(1),
+                Random.Shared.Next(-20, 55),
+                _options.ForecastArea,
+                "Sunny weather"
+            );
+
+        return new WeatherForecast
+        (
+            DateTime.Now.AddDays(1),
+            Random.Shared.Next(-20, 55),
+            _options.ForecastArea,
+            "Normal weather"
+        );
     }
 }
