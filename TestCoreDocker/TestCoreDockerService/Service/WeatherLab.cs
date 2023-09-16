@@ -6,11 +6,13 @@ namespace TestCoreDockerService.Service;
 public class WeatherLab: IWeatherLab
 {
     private readonly WeatherOptions _options;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public WeatherLab(IOptions <WeatherOptions> options)
+    public WeatherLab(IOptions <WeatherOptions> options, IHttpClientFactory httpClientFactory)
     {
         ArgumentNullException.ThrowIfNull(options);
         _options = options.Value;
+        _httpClientFactory= httpClientFactory;
     }
 
     public WeatherForecast GetWeather()

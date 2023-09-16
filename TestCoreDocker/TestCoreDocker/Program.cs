@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.HttpLogging;
 using TestCoreDockerService.Models.Options;
 using TestCoreDockerService.Service;
 
@@ -22,6 +23,8 @@ builder.Services.AddOptions<WeatherOptions>()
 // Add the weather service, its constructor will be passed the WeatherOptions we read from appsettings, and from the Environment
 // using the IOptions pattern
 builder.Services.AddTransient<IWeatherLab, WeatherLab>();
+builder.Services.AddHttpLogging(log => log.LoggingFields = HttpLoggingFields.All); //This will log all the http calls
+builder.Services.AddHttpClient();   //This is to use HTTPClient Factory  
 
 var app = builder.Build();
 
