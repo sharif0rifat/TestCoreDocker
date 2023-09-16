@@ -43,4 +43,9 @@ app.MapGet("/weatherforecast", (IWeatherLab lab, ILogger<Program> logger) =>
     return lab.GetWeather();
 }).WithName("GetWeatherForecast");
 
+app.MapGet("/weatherforecastbyarea/{areaName}",async (IWeatherLab lab, ILogger<Program> logger,string areaName) =>
+{
+    logger.LogInformation("GetWeatherForecastByArea called");
+    return await lab.GetWeather(areaName);
+}).WithName("GetWeatherForecastByArea");
 app.Run();
