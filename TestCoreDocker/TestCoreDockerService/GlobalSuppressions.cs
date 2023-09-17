@@ -7,3 +7,5 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Design", "CA1056:URI-like properties should not be strings", Justification = "<Pending>", Scope = "member", Target = "~P:TestCoreDockerService.Models.Options.WeatherOptions.ApiBaseUrl")]
 [assembly: SuppressMessage("Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>", Scope = "member", Target = "~M:TestCoreDockerService.Service.WeatherLab.GetWeather(System.String)~System.Threading.Tasks.Task{TestCoreDockerService.Models.Options.ApiResponse}")]
+[assembly: SuppressMessage("Usage", "CA2200:Rethrow to preserve stack details", Justification = "<Pending>", Scope = "member", Target = "~M:TestCoreDockerService.Service.WeatherLab.GetWeather(System.String)~System.Threading.Tasks.Task{TestCoreDockerService.Models.Options.ApiResponse}")]
+[assembly: SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "<Pending>", Scope = "member", Target = "~M:TestCoreDockerService.Service.WeatherLab.GetWeather(System.String)~System.Threading.Tasks.Task{TestCoreDockerService.Models.Options.ApiResponse}")]

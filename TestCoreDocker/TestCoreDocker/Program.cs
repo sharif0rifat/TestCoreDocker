@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.Mvc;
+using TestCoreDocker.MiddleWares;
 using TestCoreDockerService.Models.Options;
 using TestCoreDockerService.Service;
 
@@ -23,6 +25,7 @@ builder.Services.AddOptions<WeatherOptions>()
 // Add the weather service, its constructor will be passed the WeatherOptions we read from appsettings, and from the Environment
 // using the IOptions pattern
 builder.Services.AddTransient<IWeatherLab, WeatherLab>();
+builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
 builder.Services.AddHttpLogging(log => log.LoggingFields = HttpLoggingFields.All); //This will log all the http calls
 builder.Services.AddHttpClient();   //This is to use HTTPClient Factory  
 
@@ -36,7 +39,7 @@ if (app.Environment.IsDevelopment()|| app.Environment.IsProduction())
 }
 
 app.UseHttpsRedirection();
-
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 app.MapGet("/weatherforecast", (IWeatherLab lab, ILogger<Program> logger) =>
 {
     logger.LogInformation("GetWeatherForecast called");
@@ -49,3 +52,4 @@ app.MapGet("/weatherforecastbyarea/{areaName}",async (IWeatherLab lab, ILogger<P
     return await lab.GetWeather(areaName);
 }).WithName("GetWeatherForecastByArea");
 app.Run();
+
