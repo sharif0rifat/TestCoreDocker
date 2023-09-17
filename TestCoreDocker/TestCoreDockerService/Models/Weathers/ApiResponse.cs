@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestCoreDockerService.Models.Options
+namespace TestCoreDockerService.Models.Weathers
 {
     public class ApiResponse
     {
@@ -32,7 +32,7 @@ namespace TestCoreDockerService.Models.Options
     public class Day
     {
 #pragma warning disable CA1707 // Identifiers should not contain underscores
-        public float maxtemp_c { get; set; } 
+        public float maxtemp_c { get; set; }
 
         public float maxtemp_f { get; set; }
         public float mintemp_c { get; set; }

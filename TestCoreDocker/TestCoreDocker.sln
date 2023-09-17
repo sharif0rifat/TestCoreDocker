@@ -5,9 +5,9 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestCoreDocker", "TestCoreDocker\TestCoreDocker.csproj", "{1826CB03-82C5-4C1C-84AF-8B19F8D30404}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCoreDockerService", "TestCoreDockerService\TestCoreDockerService.csproj", "{29453BD8-3938-41F0-867A-E68C002D74F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestCoreDockerService", "TestCoreDockerService\TestCoreDockerService.csproj", "{29453BD8-3938-41F0-867A-E68C002D74F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCoreDockerUnitTest", "TestCoreDockerUnitTest\TestCoreDockerUnitTest.csproj", "{F07FA211-A993-40B2-A635-92E68E072353}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestCoreDockerUnitTest", "TestCoreDockerUnitTest\TestCoreDockerUnitTest.csproj", "{F07FA211-A993-40B2-A635-92E68E072353}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

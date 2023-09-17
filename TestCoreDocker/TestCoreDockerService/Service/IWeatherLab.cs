@@ -1,4 +1,4 @@
-﻿using TestCoreDockerService.Models.Options;
+﻿using TestCoreDockerService.Models.Weathers;
 
 namespace TestCoreDockerService.Service;
 

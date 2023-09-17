@@ -1,7 +1,9 @@
 using System.ComponentModel;
+using Castle.Core.Logging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
+using TestCoreDockerService.Helper;
 using TestCoreDockerService.Models.Options;
 using TestCoreDockerService.Service;
 
@@ -11,18 +13,25 @@ namespace TestCoreDockerUnitTest;
 public sealed class WeatherLabTest
 {
     private readonly Mock<IHttpClientFactory> _httpClientFactory;
+    private readonly IOptions<WeatherOptions> _options;
     private readonly WeatherLab _weatherLab;
+    private readonly Mock<ILogger<WeatherLab>> _logger;
 
     public WeatherLabTest()
     {
         _httpClientFactory = new Mock<IHttpClientFactory>();
         var logger = new Mock<ILogger<WeatherLab>>();
+        _logger = logger;
         var options = Options.Create(new WeatherOptions()
         {
             WeatherType = "Sunny",
-            ForecastArea = "India"
+            ForecastArea = "India",
+            ForecastType= "Current",
+            ApiKey = "5b10539139e74191a0c204447231309",
+            ApiBaseUrl= "https://api.weatherapi.com/v1"
         });
-        _weatherLab = new WeatherLab(options, (ILogger<WeatherLab>)logger, _httpClientFactory.Object);
+        _options = options;
+        _weatherLab = new WeatherLab(options, logger.Object, _httpClientFactory.Object);
     }
     [Fact]
     [Category()]
@@ -30,16 +39,37 @@ public sealed class WeatherLabTest
     // then the actual value as the second argument, this will result
     // in any failures having a nicer error message
     public void WeatherShouldReturnASunnyWeatherValueTest()=> Assert.Equal("Sunny weather", _weatherLab.GetWeather().Summary);
-    
-    
-    
-    // [Fact]
-    // public void NotNull() => Assert.NotNull(new WeatherLab("Sunny","India").GetWeather());
-    // [Fact]
-    // public void NotEmpty() => Assert.False(string.IsNullOrEmpty( new WeatherLab("Sunny", "India").GetWeather().Summary));
-    //
-    // [Fact]
-    // public void NormalWeather() => Assert.Equal(new WeatherLab(null,null).GetWeather().Summary, "Normal weather");
-    // [Fact]
-    // public void SunnyWeather() => Assert.Equal(new WeatherLab("Sunny", "Bangladesh").GetWeather().Summary, "Sunny weather");
+
+    //"country": "Australia"
+    [Fact]
+    [Category()]
+    public void WeatherShouldReturnNonEmptyApiRespone() => Assert.True(_weatherLab.GetWeather("Sydney").IsNotNull());
+
+
+    [Fact]
+    [Category()]
+    public async void WeatherShouldReturnCountryNameAsAustralia()
+    {
+        var apiResponse= await _weatherLab.GetWeather("Sydney");
+#pragma warning disable CS8604 // Possible null reference argument.
+        if (!apiResponse.IsNotNull())
+            Assert.Fail("Api Response is null");
+#pragma warning restore CS8604 // Possible null reference argument.
+        Assert.Equal("Australia", apiResponse.location?.country);
+    }
+
+    [Fact]
+    [Category()]
+    public async void WeatherShouldReturnNonEmptyForecast()
+    {
+        _options.Value.ForecastType = "Forecast";
+        var weatherLab = new WeatherLab(_options, _logger.Object, _httpClientFactory.Object);
+
+        var apiResponse = await weatherLab.GetWeather("Sydney");
+#pragma warning disable CS8604 // Possible null reference argument.
+        if (!apiResponse.IsNotNull())
+            Assert.Fail("Api Response is null");
+#pragma warning restore CS8604 // Possible null reference argument.
+        Assert.NotNull(apiResponse.forecast);
+    }
 }

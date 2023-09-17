@@ -11,10 +11,7 @@ namespace TestCoreDockerService.Helper
     {
         public static bool IsNotNull(this object  obj)
             {
-            if (obj == null)
-                return false;
-            else
-                return true;
+            return obj == null;
         }
     }
 }

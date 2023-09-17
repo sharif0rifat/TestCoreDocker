@@ -6,6 +6,7 @@ using TestCoreDockerService.Helper;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Http;
+using TestCoreDockerService.Models.Weathers;
 
 namespace TestCoreDockerService.Service;
 
@@ -19,6 +20,8 @@ public class WeatherLab: IWeatherLab
     public WeatherLab(IOptions <WeatherOptions> options,ILogger<WeatherLab> logger, IHttpClientFactory httpClientFactory)
     {
         ArgumentNullException.ThrowIfNull(options);
+        ArgumentNullException.ThrowIfNull(httpClientFactory);
+        ArgumentNullException.ThrowIfNull(logger);
         _options = options.Value;
         _httpClientFactory= httpClientFactory;
         _logger = logger;
@@ -61,19 +64,25 @@ public class WeatherLab: IWeatherLab
                     var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(resultStr);
                     if (!IsNotNull(apiResponse))
                         //This will handled by the 'GlobalExceptionHandlingMiddleware'
+#pragma warning disable CA2201 // Do not raise reserved exception types
                         throw new Exception("Some data mapping problem happened.");
+#pragma warning restore CA2201 // Do not raise reserved exception types
                     return apiResponse;
                 }
                 else
                 {
                     _logger.LogError("Erro occured while fetching weather api.", response);
+#pragma warning disable CA2201 // Do not raise reserved exception types
                     throw new Exception("Erro occured while fetching weather api.");   //This will short-circuit the calling chanel and will be handled by the 'GlobalExceptionHandlingMiddleware'
+#pragma warning restore CA2201 // Do not raise reserved exception types
                 }
             }
         }
         catch (Exception ex)
         {
+#pragma warning disable CA2200 // Rethrow to preserve stack details
             throw ex;   // This will handled by the 'GlobalExceptionHandlingMiddleware'
+#pragma warning restore CA2200 // Rethrow to preserve stack details
         }
     }
 }
