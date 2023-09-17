@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using System.Net.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using TestCoreDockerService.Models.Options;
@@ -11,27 +11,26 @@ namespace TestCoreDockerUnitTest;
 public sealed class WeatherLabTest
 {
     private readonly Mock<IHttpClientFactory> _httpClientFactory;
+    private readonly WeatherLab _weatherLab;
 
     public WeatherLabTest()
     {
         _httpClientFactory = new Mock<IHttpClientFactory>();
-    }
-    [Fact]
-    [Category()]
-    public void WeatherShouldReturnASunnyWeatherValueTest()
-    {
-
+        var logger = new Mock<ILogger<WeatherLab>>();
         var options = Options.Create(new WeatherOptions()
         {
             WeatherType = "Sunny",
             ForecastArea = "India"
         });
-        var weatherLab = new WeatherLab(options,_httpClientFactory.Object);
-        // note how we pass the 'Expected' value as the first argument,
-        // then the actual value as the second argument, this will result
-        // in any failures having a nicer error message
-        Assert.Equal("Sunny weather", weatherLab.GetWeather().Summary);
+        _weatherLab = new WeatherLab(options, (ILogger<WeatherLab>)logger, _httpClientFactory.Object);
     }
+    [Fact]
+    [Category()]
+    // note how we pass the 'Expected' value as the first argument,
+    // then the actual value as the second argument, this will result
+    // in any failures having a nicer error message
+    public void WeatherShouldReturnASunnyWeatherValueTest()=> Assert.Equal("Sunny weather", _weatherLab.GetWeather().Summary);
+    
     
     
     // [Fact]
