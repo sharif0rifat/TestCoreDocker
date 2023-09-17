@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TestCoreDockerService.Models.WeatherModels
+﻿namespace TestCoreDockerService.Models.WeatherModels
 {
+    /// <summary>
+    /// This is to Grab data from weather api,
+    /// the fields are kept short because of simplicity
+    /// Any use of Auto mapper s skipped, to maintain smiplicity
+    /// </summary>
     public class ApiResponse
     {
         public Location? location { get; set; }
@@ -16,11 +15,7 @@ namespace TestCoreDockerService.Models.WeatherModels
 
     public class Forecast
     {
-#pragma warning disable CA1002 // Do not expose generic lists
-#pragma warning disable CA2227 // Collection properties should be read only
         public List<Forecastday>? forecastday { get; set; }
-#pragma warning restore CA2227 // Collection properties should be read only
-#pragma warning restore CA1002 // Do not expose generic lists
     }
 
     public class Forecastday
