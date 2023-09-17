@@ -8,3 +8,5 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>", Scope = "member", Target = "~M:TestCoreDockerUnitTest.WeatherLabTest.WeatherShouldReturnCountryNameAsAustralia")]
 [assembly: SuppressMessage("Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>", Scope = "member", Target = "~M:TestCoreDockerUnitTest.WeatherLabTest.WeatherShouldReturnNonEmpty")]
 [assembly: SuppressMessage("Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>", Scope = "member", Target = "~M:TestCoreDockerUnitTest.WeatherLabTest.WeatherShouldReturnNonEmptyForecast")]
+[assembly: SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>", Scope = "member", Target = "~M:TestCoreDockerUnitTest.WeatherLabTest.#ctor")]
+[assembly: SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "<Pending>", Scope = "type", Target = "~T:TestCoreDockerUnitTest.WeatherLabTest")]

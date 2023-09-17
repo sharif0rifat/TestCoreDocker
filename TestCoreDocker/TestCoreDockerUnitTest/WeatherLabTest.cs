@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Net.Http;
 using Castle.Core.Logging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -12,6 +13,7 @@ namespace TestCoreDockerUnitTest;
 [Trait("Category", "WeatherService")]
 public sealed class WeatherLabTest
 {
+    private readonly HttpClient _httpClient;
     private readonly Mock<IHttpClientFactory> _httpClientFactory;
     private readonly IOptions<WeatherOptions> _options;
     private readonly WeatherLab _weatherLab;
@@ -19,7 +21,9 @@ public sealed class WeatherLabTest
 
     public WeatherLabTest()
     {
+        _httpClient = new HttpClient();
         _httpClientFactory = new Mock<IHttpClientFactory>();
+        _httpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(_httpClient);
         var logger = new Mock<ILogger<WeatherLab>>();
         _logger = logger;
         var options = Options.Create(new WeatherOptions()
@@ -71,5 +75,11 @@ public sealed class WeatherLabTest
             Assert.Fail("Api Response is null");
 #pragma warning restore CS8604 // Possible null reference argument.
         Assert.NotNull(apiResponse.forecast);
+    }
+
+    [Fact]
+    public  void Dispose()
+    {
+        _httpClient.Dispose();
     }
 }
