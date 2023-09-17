@@ -23,19 +23,17 @@ namespace TestCoreDocker.MiddleWares
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Some Error Happened while Fetching weather");
+                _logger.LogError(ex, $"Some Error Happened while Fetching weather"); //Log the exception here
                 if (context.IsNotNull())
                 {
-#pragma warning disable CA1062 // Validate arguments of public methods
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-#pragma warning restore CA1062 // Validate arguments of public methods
                     ProblemDetails problem = new ProblemDetails { 
                         Status= (int)HttpStatusCode.InternalServerError,
                         Title="Internal Server Error",
                         Detail="Some Internal Server Error happened while fetching weather data"
                     };
                     string json= JsonConvert.SerializeObject(problem);
-                    context.Response?.WriteAsync(json);
+                    context.Response?.WriteAsync(json); // This will return a response with Error message
                 }
             }
         }

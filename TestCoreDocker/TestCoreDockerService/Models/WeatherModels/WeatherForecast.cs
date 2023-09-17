@@ -1,4 +1,4 @@
-namespace TestCoreDockerService.Models.Weathers;
+namespace TestCoreDockerService.Models.WeatherModels;
 
 public record WeatherForecast(DateTime Date, int TemperatureC, string Area, string? Summary)
 {

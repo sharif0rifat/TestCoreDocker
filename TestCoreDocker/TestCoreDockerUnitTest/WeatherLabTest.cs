@@ -1,6 +1,4 @@
 using System.ComponentModel;
-using System.Net.Http;
-using Castle.Core.Logging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -44,7 +42,6 @@ public sealed class WeatherLabTest
     // in any failures having a nicer error message
     public void WeatherShouldReturnASunnyWeatherValueTest()=> Assert.Equal("Sunny weather", _weatherLab.GetWeather().Summary);
 
-    //"country": "Australia"
     [Fact]
     [Category()]
     public void WeatherShouldReturnNonEmptyApiRespone() => Assert.True(_weatherLab.GetWeather("Sydney").IsNotNull());

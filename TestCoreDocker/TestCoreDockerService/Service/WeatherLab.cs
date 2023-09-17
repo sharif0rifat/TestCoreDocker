@@ -2,11 +2,9 @@
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
-using TestCoreDockerService.Helper;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
-using System.Net.Http;
-using TestCoreDockerService.Models.Weathers;
+using TestCoreDockerService.Models.WeatherModels;
 
 namespace TestCoreDockerService.Service;
 
@@ -51,22 +49,19 @@ public class WeatherLab: IWeatherLab
     {
         try
         {
-            string weatherType = _options.ForecastType == "Forecast" ? "forecast.json" : "current.json";
+            string forecastType = _options.ForecastType == "Forecast" ? "forecast.json" : "current.json";
             
             using (var client = _httpClientFactory.CreateClient())
             {
                 string query = _options.ForecastType == "Forecast" ? $"?q={areaName}&days=1" : $"?q={areaName}";
-                string callingUrl = $"{_options.ApiBaseUrl}/{weatherType}{query}&key={_options.ApiKey}";
+                string callingUrl = $"{_options.ApiBaseUrl}/{forecastType}{query}&key={_options.ApiKey}";
                 var response = await client.GetAsync(new Uri(callingUrl));
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var resultStr = await response.Content.ReadAsStringAsync();
                     var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(resultStr);
                     if (!IsNotNull(apiResponse))
-                        //This will handled by the 'GlobalExceptionHandlingMiddleware'
-#pragma warning disable CA2201 // Do not raise reserved exception types
-                        throw new Exception("Some data mapping problem happened.");
-#pragma warning restore CA2201 // Do not raise reserved exception types
+                        throw new Exception("Some data mapping problem happened."); //This will handled by the 'GlobalExceptionHandlingMiddleware'
                     return apiResponse;
                 }
                 else
