@@ -12,13 +12,12 @@ namespace TestCoreDockerService.Models.WeatherModels
         public Location? location { get; set; }
         public Current? current { get; set; }
         public Forecast? forecast { get; set; }
-
     }
 
     public class Forecast
     {
-        //public IList<Forecastday>? forecastday { get; set; }
-        public object? forecastday { get; set; }
+        [JsonProperty]
+        public IList<Forecastday>? forecastday { get; private set; } 
     }
 
     public class Forecastday
