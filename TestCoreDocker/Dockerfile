@@ -7,7 +7,7 @@ EXPOSE 80
 EXPOSE 443
 
 ENV WeatherType="Sunny"
-
+ENV WeatherOptions__ForecastType="Forecast"
 #Get the sdk build tools to buil;d and publish the code
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src

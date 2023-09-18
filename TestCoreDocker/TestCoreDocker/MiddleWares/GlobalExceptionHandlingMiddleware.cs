@@ -19,11 +19,13 @@ namespace TestCoreDocker.MiddleWares
             try
             {
                 ArgumentNullException.ThrowIfNull(next);
-                await next(context);
+                
+                await next(context).ConfigureAwait(true);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Some Error Happened while Fetching weather"); //Log the exception here
+                ArgumentNullException.ThrowIfNull(context);
                 if (context.IsNotNull())
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
