@@ -16,7 +16,7 @@ tab_width = 4
 
 # CA5394: Do not use insecure randomness as it is just a demo
 dotnet_diagnostic.CA5394.severity = none
-
+ 
 # CA1031: Do not catch general exception types
 dotnet_diagnostic.CA1031.severity = suggestion
 
@@ -25,3 +25,10 @@ dotnet_diagnostic.CA1848.severity = none
 
 # CA1852: Program can be sealed
 dotnet_diagnostic.CA1852.severity = none
+
+#CA1014: assemblies can be non CLSCompliant
+[*.{cs,vb}]
+dotnet_diagnostic.CA1014.severity = none
+
+#CA1812:  internal classes can be uninstantiated (such as program.cs)
+dotnet_diagnostic.CA1812.severity = none
