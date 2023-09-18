@@ -18,8 +18,6 @@ public class WeatherLab: IWeatherLab
     public WeatherLab(IOptions <WeatherOptions> options,ILogger<WeatherLab> logger, IHttpClientFactory httpClientFactory)
     {
         ArgumentNullException.ThrowIfNull(options);
-        ArgumentNullException.ThrowIfNull(httpClientFactory);
-        ArgumentNullException.ThrowIfNull(logger);
         _options = options.Value;
         _httpClientFactory= httpClientFactory;
         _logger = logger;
@@ -54,30 +52,27 @@ public class WeatherLab: IWeatherLab
             using (var client = _httpClientFactory.CreateClient())
             {
                 string query = _options.ForecastType == "Forecast" ? $"?q={areaName}&days=1" : $"?q={areaName}";
-                string callingUrl = $"{_options.ApiBaseUrl}/{forecastType}{query}&key={_options.ApiKey}";
-                var response = await client.GetAsync(new Uri(callingUrl));
+                string callingUrl = $"{_options.ApiBase}/{forecastType}{query}&key={_options.ApiKey}";
+                var response = await client.GetAsync(new Uri(callingUrl)).ConfigureAwait(true);
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    var resultStr = await response.Content.ReadAsStringAsync();
+                    var resultStr = await response.Content.ReadAsStringAsync().ConfigureAwait(true);
                     var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(resultStr);
                     if (!IsNotNull(apiResponse))
-                        throw new Exception("Some data mapping problem happened."); //This will handled by the 'GlobalExceptionHandlingMiddleware'
+                        throw new InvalidOperationException("Some data mapping problem happened."); //This will handled by the 'GlobalExceptionHandlingMiddleware'
                     return apiResponse;
                 }
                 else
                 {
                     _logger.LogError("Erro occured while fetching weather api.", response);
-#pragma warning disable CA2201 // Do not raise reserved exception types
-                    throw new Exception("Erro occured while fetching weather api.");   //This will short-circuit the calling chanel and will be handled by the 'GlobalExceptionHandlingMiddleware'
-#pragma warning restore CA2201 // Do not raise reserved exception types
+                    throw new HttpRequestException("Erro occured while fetching weather api.");   //This will short-circuit the calling chanel and will be handled by the 'GlobalExceptionHandlingMiddleware'
                 }
             }
         }
         catch (Exception ex)
         {
-#pragma warning disable CA2200 // Rethrow to preserve stack details
-            throw ex;   // This will handled by the 'GlobalExceptionHandlingMiddleware'
-#pragma warning restore CA2200 // Rethrow to preserve stack details
+            _logger.LogError(ex,"Some error happened while Getting weather data");
+            throw new InvalidOperationException("Some error happened while Getting weather data");   // This will handled by the 'GlobalExceptionHandlingMiddleware'
         }
     }
 }

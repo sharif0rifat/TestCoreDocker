@@ -9,7 +9,7 @@ using TestCoreDockerService.Service;
 namespace TestCoreDockerUnitTest;
 
 [Trait("Category", "WeatherService")]
-public sealed class WeatherLabTest
+public sealed class WeatherLabTest : IDisposable
 {
     private readonly HttpClient _httpClient;
     private readonly Mock<IHttpClientFactory> _httpClientFactory;
@@ -30,7 +30,7 @@ public sealed class WeatherLabTest
             ForecastArea = "India",
             ForecastType= "Current",
             ApiKey = "5b10539139e74191a0c204447231309",
-            ApiBaseUrl= "https://api.weatherapi.com/v1"
+            ApiBase= "https://api.weatherapi.com/v1"
         });
         _options = options;
         _weatherLab = new WeatherLab(options, logger.Object, _httpClientFactory.Object);
@@ -51,11 +51,10 @@ public sealed class WeatherLabTest
     [Category()]
     public async void WeatherShouldReturnCountryNameAsAustralia()
     {
-        var apiResponse= await _weatherLab.GetWeather("Sydney");
-#pragma warning disable CS8604 // Possible null reference argument.
+        var apiResponse = await _weatherLab.GetWeather("Sydney").ConfigureAwait(true);
+        Assert.NotNull(apiResponse);
         if (!apiResponse.IsNotNull())
             Assert.Fail("Api Response is null");
-#pragma warning restore CS8604 // Possible null reference argument.
         Assert.Equal("Australia", apiResponse.location?.country);
     }
 
@@ -66,11 +65,10 @@ public sealed class WeatherLabTest
         _options.Value.ForecastType = "Forecast";
         var weatherLab = new WeatherLab(_options, _logger.Object, _httpClientFactory.Object);
 
-        var apiResponse = await weatherLab.GetWeather("Sydney");
-#pragma warning disable CS8604 // Possible null reference argument.
+        var apiResponse = await weatherLab.GetWeather("Sydney").ConfigureAwait(true);
+        Assert.NotNull(apiResponse);
         if (!apiResponse.IsNotNull())
             Assert.Fail("Api Response is null");
-#pragma warning restore CS8604 // Possible null reference argument.
         Assert.NotNull(apiResponse.forecast);
     }
 

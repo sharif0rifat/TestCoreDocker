@@ -21,5 +21,5 @@ public class WeatherOptions
     [Required]
     [MinLength(3)]
     [MaxLength(1000)]
-    public string ApiBaseUrl { get; set; } = "";
+    public string ApiBase { get; set; } = "";
 }
