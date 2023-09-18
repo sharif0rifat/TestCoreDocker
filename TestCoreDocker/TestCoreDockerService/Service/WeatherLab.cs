@@ -47,6 +47,8 @@ public class WeatherLab: IWeatherLab
     {
         try
         {
+            //By default forcast type is current,
+            //if it is overriden by environment variable then get 1 day ahead forecast data
             string forecastType = _options.ForecastType == "Forecast" ? "forecast.json" : "current.json";
             
             using (var client = _httpClientFactory.CreateClient())
@@ -74,5 +76,4 @@ public class WeatherLab: IWeatherLab
             _logger.LogError(ex,"Some error happened while Getting weather data");
             throw new InvalidOperationException("Some error happened while Getting weather data");   // This will handled by the 'GlobalExceptionHandlingMiddleware'
         }
-    }
-}
+    }}

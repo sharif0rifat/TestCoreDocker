@@ -29,7 +29,8 @@ namespace TestCoreDocker.MiddleWares
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     ProblemDetails problem = new ProblemDetails { 
-                        Status= (int)HttpStatusCode.InternalServerError,
+                        Type= "Internal Server Error",
+                        Status = (int)HttpStatusCode.InternalServerError,
                         Title="Internal Server Error",
                         Detail="Some Internal Server Error happened while fetching weather data"
                     };
