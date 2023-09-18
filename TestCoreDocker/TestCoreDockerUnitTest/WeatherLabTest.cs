@@ -24,6 +24,8 @@ public sealed class WeatherLabTest : IDisposable
         _httpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(_httpClient);
         var logger = new Mock<ILogger<WeatherLab>>();
         _logger = logger;
+
+        //Set default option 
         var options = Options.Create(new WeatherOptions()
         {
             WeatherType = "Sunny",
@@ -62,6 +64,7 @@ public sealed class WeatherLabTest : IDisposable
     [Category()]
     public async void WeatherShouldReturnNonEmptyForecast()
     {
+        //Override the 'ForecastType' to see forecast data
         _options.Value.ForecastType = "Forecast";
         var weatherLab = new WeatherLab(_options, _logger.Object, _httpClientFactory.Object);
 

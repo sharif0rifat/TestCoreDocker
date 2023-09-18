@@ -65,7 +65,7 @@ public class WeatherLab: IWeatherLab
                 else
                 {
                     _logger.LogError("Erro occured while fetching weather api.", response);
-                    throw new HttpRequestException("Erro occured while fetching weather api.");   //This will short-circuit the calling chanel and will be handled by the 'GlobalExceptionHandlingMiddleware'
+                    throw new HttpRequestException("Erro occured while fetching weather api.");   //Throwing Exception intentionally to be handled by the 'GlobalExceptionHandlingMiddleware'
                 }
             }
         }

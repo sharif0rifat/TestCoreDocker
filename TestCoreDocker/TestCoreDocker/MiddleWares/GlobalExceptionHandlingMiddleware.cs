@@ -25,8 +25,7 @@ namespace TestCoreDocker.MiddleWares
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Some Error Happened while Fetching weather"); //Log the exception here
-                ArgumentNullException.ThrowIfNull(context);
-                if (context.IsNotNull())
+                if (context!=null)
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     ProblemDetails problem = new ProblemDetails { 
