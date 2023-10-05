@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net;
-using TestCoreDockerService.Helper;
+using System.Text;
 
 namespace TestCoreDocker.MiddleWares
 {
@@ -35,7 +35,8 @@ namespace TestCoreDocker.MiddleWares
                         Detail="Some Internal Server Error happened while fetching weather data"
                     };
                     string json= JsonConvert.SerializeObject(problem);
-                    context.Response?.WriteAsync(json); // This will return a response with Error message
+                    context.Response.ContentType = "text/plain";
+                    context.Response?.WriteAsync(json, Encoding.UTF8); // This will return a response with Error message
                 }
             }
         }
