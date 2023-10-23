@@ -17,7 +17,7 @@ namespace TestCoreDockerService.Models.WeatherModels
     public class Forecast
     {
         [JsonProperty]
-        public IList<Forecastday>? forecastday { get; private set; } 
+        public IList<Forecastday>? forecastday { get; private set; }
     }
 
     public class Forecastday
@@ -60,16 +60,8 @@ namespace TestCoreDockerService.Models.WeatherModels
         public float WindKph { get; set; }
         [JsonProperty("humidity")]
         public float Humidity { get; set; }
-        public Condition? condition { get; set; }
 
     }
-
-    public class Condition
-    {
-        public string text { get; set; } = "";
-        public string icon { get; set; } = "";
-    }
-
     public class Location
     {
         public string Name { get; set; } = "";

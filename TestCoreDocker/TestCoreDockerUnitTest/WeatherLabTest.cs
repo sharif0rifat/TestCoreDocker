@@ -8,7 +8,7 @@ using TestCoreDockerService.Service;
 
 namespace TestCoreDockerUnitTest;
 
-[Trait("Category", "WeatherService")]
+
 public sealed class WeatherLabTest : IDisposable
 {
     private readonly HttpClient _httpClient;
@@ -38,19 +38,19 @@ public sealed class WeatherLabTest : IDisposable
         _weatherLab = new WeatherLab(options, logger.Object, _httpClientFactory.Object);
     }
     [Fact]
-    [Category()]
+    [Trait("Category", "WeatherService")]
     // note how we pass the 'Expected' value as the first argument,
     // then the actual value as the second argument, this will result
     // in any failures having a nicer error message
     public void WeatherShouldReturnASunnyWeatherValueTest()=> Assert.Equal("Sunny weather", _weatherLab.GetWeather().Summary);
 
     [Fact]
-    [Category()]
+    [Trait("Category", "WeatherAPI")]
     public void WeatherShouldReturnNonEmptyApiRespone() => Assert.True(_weatherLab.GetWeather("Sydney").IsNotNull());
 
 
     [Fact]
-    [Category()]
+    [Trait("Category", "WeatherAPI")]
     public async void WeatherShouldReturnCountryNameAsAustralia()
     {
         var apiResponse = await _weatherLab.GetWeather("Sydney").ConfigureAwait(true);
@@ -61,7 +61,7 @@ public sealed class WeatherLabTest : IDisposable
     }
 
     [Fact]
-    [Category()]
+    [Trait("Category", "WeatherAPI")]
     public async void WeatherShouldReturnNonEmptyForecast()
     {
         //Override the 'ForecastType' to see forecast data
@@ -75,7 +75,6 @@ public sealed class WeatherLabTest : IDisposable
         Assert.NotNull(apiResponse.forecast);
     }
 
-    [Fact]
     public  void Dispose()
     {
         _httpClient.Dispose();

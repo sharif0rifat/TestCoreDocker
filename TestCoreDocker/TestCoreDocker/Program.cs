@@ -21,6 +21,13 @@ builder.Services.AddOptions<WeatherOptions>()
     .ValidateDataAnnotations() // this will validate the WeatherOptions class using the DataAnnotations attributes
     .ValidateOnStart(); // this will ensure we validate when the app starts instead of waiting for the service to be called and then erroring. We do this as best to fail fast when inflating a production service instead of waiting for a customer to call the service and then erroring
 
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+{
+    options.SerializerOptions.PropertyNameCaseInsensitive = false;
+    options.SerializerOptions.PropertyNamingPolicy = null;
+    options.SerializerOptions.WriteIndented = true;
+});
+
 // Add the weather service, its constructor will be passed the WeatherOptions we read from appsettings, and from the Environment
 // using the IOptions pattern
 builder.Services.AddTransient<IWeatherLab, WeatherLab>();   //Instead of adding a new service, made all the changes in existing service
